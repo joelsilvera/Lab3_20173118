@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class emergencia extends AppCompatActivity {
+
+    private TextView countdownText;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMillis;
+    private static final long COUNTDOWN_INTERVAL = 1000; // Intervalo de 1 segundo
+    private static final long COUNTDOWN_TIME = 10000; // Duración de la cuenta regresiva en milisegundos
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,23 +35,41 @@ public class emergencia extends AppCompatActivity {
         String destino = distDestino.getText().toString();
         String ruta = origen + "-" + destino;
 
-        String tiempo=null;
+        int tiempo=0;
         if(origen.equals("Lince") && destino.equals("Lince")){
-           tiempo = "10";
+           tiempo = 600000; //10 min
         }
         if((origen.equals("San Isidro") && destino.equals("Lince"))||(origen.equals("Lince") && destino.equals("San Isidro"))){
-            tiempo = "15";
+            tiempo = 900000; //15 min
         }
         if((origen.equals("Magdalena") && destino.equals("Lince"))||(origen.equals("Lince") && destino.equals("Magdalena"))){
-            tiempo = "20";
+            tiempo = 1200000; // 20 min
         }
         if((origen.equals("Jesús María") && destino.equals("Lince"))||(origen.equals("Lince") && destino.equals("Jesús María"))){
-            tiempo = "25";
+            tiempo = 1500000; // 25 min
         }
-        TextView txtminutos = findViewById(R.id.txtminutos);
-        txtminutos.setText(tiempo + " minutos");
 
+        //CREAMOS EN CRONOMETRO
+        countdownText = findViewById(R.id.countdown_text);
+        countDownTimer = new CountDownTimer(tiempo, COUNTDOWN_INTERVAL) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis = millisUntilFinished;
+                int seconds = (int) (timeLeftInMillis / 1000);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+                String timeFormatted = String.format("%02d:%02d", minutes, seconds);
+                countdownText.setText(timeFormatted);
+            }
+            @Override
+            public void onFinish() {
+                timeLeftInMillis = 0;
+                updateCountdownText();
+            }
+        };
+        countDownTimer.start();
 
+        //GUARDASMOS DATOS EN LA VARIABLE GLOBAL
         SharedPreferences sharpref = getSharedPreferences("datos_mascotas", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharpref.edit();
         editor.putString("ruta",ruta);
@@ -70,5 +95,23 @@ public class emergencia extends AppCompatActivity {
     public void ParaMain(View view){
         Intent ParaMain = new Intent(this, MainActivity.class);
         startActivity(ParaMain);
+    }
+
+
+    private void startCountdown() {
+
+    }
+
+    private void updateCountdownText() {
+        int seconds = (int) (timeLeftInMillis / 1000);
+        countdownText.setText(String.valueOf(seconds));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }
