@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/idRegistro"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="208dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="217dp"
+        android:layout_marginEnd="98dp"
+        android:backgroundTint="@color/purple_500"
+        android:onClick="IrARegistro"
+        android:text="Registro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/idRegistro2"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="208dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="98dp"
+        android:backgroundTint="@color/purple_500"
+        android:onClick="IrAEmergencia"
+        android:text="Emergencia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idRegistro" />
+
+    <Button
+        android:id="@+id/idRegistro3"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="208dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginEnd="98dp"
+        android:backgroundTint="@color/purple_500"
+        android:onClick="IrAHistorial"
+        android:text="Historial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idRegistro2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
